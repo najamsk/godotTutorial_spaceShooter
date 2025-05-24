@@ -3,9 +3,6 @@ extends ParallaxBackground
 @onready var far_stars_layer: ParallaxLayer = %FarStarsLayer
 @onready var close_stars_layer: ParallaxLayer = %CloseStarsLayer
 
-
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	space_layer.motion_offset.y += 2 * delta
