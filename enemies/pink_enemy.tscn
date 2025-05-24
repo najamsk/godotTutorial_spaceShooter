@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://dc2mykjeyuap8"]
+
+[ext_resource type="PackedScene" uid="uid://ofnandi6vaph" path="res://enemies/enemy.tscn" id="1_m7bk0"]
+[ext_resource type="Texture2D" uid="uid://bl3ssimktyjto" path="res://assets/pink_enemy.png" id="2_psv4m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kney"]
+atlas = ExtResource("2_psv4m")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw4rh"]
+atlas = ExtResource("2_psv4m")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mik3f"]
+atlas = ExtResource("2_psv4m")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67erp"]
+atlas = ExtResource("2_psv4m")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dxut"]
+atlas = ExtResource("2_psv4m")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0tkce"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kney")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uw4rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mik3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67erp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dxut")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_psv4m"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0kney"]
+radius = 6.0
+
+[node name="PinkEnemy" instance=ExtResource("1_m7bk0")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_0tkce")
+autoplay = "default"
+frame_progress = 0.447085
+
+[node name="StatsComponent" parent="." index="1"]
+health = 8
+
+[node name="MoveComponent" parent="." index="2"]
+velocity = Vector2(0, 8)
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="3"]
+position = Vector2(4.76837e-07, -3.57628e-07)
+scale = Vector2(0.7, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_psv4m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_0kney")
+debug_color = Color(0.809281, 0.291943, 0.736088, 0.42)
+
+[node name="ScoreComponent" parent="." index="12"]
+adjust_amount = 20
