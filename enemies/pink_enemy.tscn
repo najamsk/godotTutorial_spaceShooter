@@ -1,7 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dc2mykjeyuap8"]
+[gd_scene load_steps=15 format=3 uid="uid://dc2mykjeyuap8"]
 
 [ext_resource type="PackedScene" uid="uid://ofnandi6vaph" path="res://enemies/enemy.tscn" id="1_m7bk0"]
+[ext_resource type="Script" uid="uid://h6x4kbapapx8" path="res://enemies/pink_enemy.gd" id="2_67erp"]
 [ext_resource type="Texture2D" uid="uid://bl3ssimktyjto" path="res://assets/pink_enemy.png" id="2_psv4m"]
+[ext_resource type="Script" uid="uid://bq3ofsjqcmk7o" path="res://components/move_component.gd" id="5_mik3f"]
+[ext_resource type="Script" uid="uid://voopolb4cr3j" path="res://components/border_bounce_component.gd" id="6_7dxut"]
+[ext_resource type="Script" uid="uid://ccasnm265pqmt" path="res://components/timed_state_componoent.gd" id="6_67erp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kney"]
 atlas = ExtResource("2_psv4m")
@@ -53,6 +57,7 @@ radius = 7.0
 radius = 6.0
 
 [node name="PinkEnemy" instance=ExtResource("1_m7bk0")]
+script = ExtResource("2_67erp")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_0tkce")
@@ -61,9 +66,6 @@ frame_progress = 0.447085
 
 [node name="StatsComponent" parent="." index="1"]
 health = 8
-
-[node name="MoveComponent" parent="." index="2"]
-velocity = Vector2(0, 8)
 
 [node name="VisibleOnScreenNotifier2D" parent="." index="3"]
 position = Vector2(4.76837e-07, -3.57628e-07)
@@ -78,3 +80,41 @@ debug_color = Color(0.809281, 0.291943, 0.736088, 0.42)
 
 [node name="ScoreComponent" parent="." index="12"]
 adjust_amount = 20
+
+[node name="States" type="Node" parent="." index="13"]
+
+[node name="MoveDownState" type="Node" parent="States" index="0"]
+unique_name_in_owner = true
+script = ExtResource("6_67erp")
+duration = 2.0
+metadata/_custom_type_script = "uid://ccasnm265pqmt"
+
+[node name="MoveComponent" type="Node" parent="States/MoveDownState" index="0" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_mik3f")
+velocity = Vector2(0, 20)
+actor = NodePath("../../..")
+metadata/_custom_type_script = "uid://bq3ofsjqcmk7o"
+
+[node name="MoveSideState" type="Node" parent="States" index="1"]
+unique_name_in_owner = true
+script = ExtResource("6_67erp")
+duration = 3.0
+metadata/_custom_type_script = "uid://ccasnm265pqmt"
+
+[node name="MoveSideComponent" type="Node" parent="States/MoveSideState" index="0" node_paths=PackedStringArray("actor")]
+unique_name_in_owner = true
+script = ExtResource("5_mik3f")
+actor = NodePath("../../..")
+metadata/_custom_type_script = "uid://bq3ofsjqcmk7o"
+
+[node name="BorderBounceComponent" type="Node" parent="States/MoveSideState" index="1" node_paths=PackedStringArray("actor", "move_component")]
+script = ExtResource("6_7dxut")
+actor = NodePath("../../..")
+move_component = NodePath("../MoveSideComponent")
+metadata/_custom_type_script = "uid://voopolb4cr3j"
+
+[node name="PauseState" type="Node" parent="States" index="2"]
+unique_name_in_owner = true
+script = ExtResource("6_67erp")
+duration = 3.0
+metadata/_custom_type_script = "uid://ccasnm265pqmt"
