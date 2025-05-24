@@ -7,6 +7,13 @@ extends Node2D
 @onready var flash_component: FlashComponent = $FlashComponent
 @onready var shake_component: ShakeComponent = $ShakeComponent
 
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
+@onready var hitbox_component: HitboxComponent = $HitboxComponent
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible_on_screen_notifier_2d.screen_exited.connect(queue_free)
+	hurtbox_component.hurt.connect(func(hitbox_component: HitboxComponent):
+		queue_free()	
+	)
