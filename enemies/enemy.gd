@@ -9,6 +9,7 @@ extends Node2D
 
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
+@onready var destroyed_component: DestroyedComponent = $DestroyedComponent
 
 
 # Called when the node enters the scene tree for the first time.
@@ -20,3 +21,4 @@ func _ready() -> void:
 		shake_component.shake
 	)
 	stats_component.no_health.connect(queue_free)
+	hitbox_component.hit_hurtbox.connect(destroyed_component.destroy.unbind(1))

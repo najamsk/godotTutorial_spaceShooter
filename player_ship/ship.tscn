@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cryblcu5mcsjr"]
+[gd_scene load_steps=27 format=3 uid="uid://cryblcu5mcsjr"]
 
 [ext_resource type="Script" uid="uid://ek70r5amogqf" path="res://player_ship/ship.gd" id="1_etvdo"]
 [ext_resource type="Texture2D" uid="uid://lhp5vfocblvi" path="res://assets/ship.png" id="1_lyjrp"]
@@ -10,6 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://dudm41bwdy7mj" path="res://projectiles/laser.tscn" id="8_le0bn"]
 [ext_resource type="Script" uid="uid://xpvq3lp5lewj" path="res://components/scale_component.gd" id="9_le0bn"]
 [ext_resource type="Texture2D" uid="uid://bmyke027pak6v" path="res://assets/ship_flame.png" id="10_8ru6t"]
+[ext_resource type="Script" uid="uid://bphetrp8fk1b6" path="res://components/stats_component.gd" id="11_1xpe7"]
+[ext_resource type="Script" uid="uid://7iyotmo3dndt" path="res://components/hurtbox_component.gd" id="12_kbeao"]
+[ext_resource type="Script" uid="uid://flfgnyocc7mx" path="res://components/hurt_component.gd" id="13_kbeao"]
+[ext_resource type="PackedScene" uid="uid://cqbd5tbffwa1m" path="res://effects/explosion_effect.tscn" id="14_gglps"]
+[ext_resource type="Script" uid="uid://1t2gplgsoh4i" path="res://components/destroyed_component.gd" id="15_h7cto"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y3mk2"]
 atlas = ExtResource("1_lyjrp")
@@ -161,3 +166,33 @@ autostart = true
 script = ExtResource("9_le0bn")
 sprite = NodePath("../Anchor")
 metadata/_custom_type_script = "uid://xpvq3lp5lewj"
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("11_1xpe7")
+metadata/_custom_type_script = "uid://bphetrp8fk1b6"
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+collision_mask = 0
+script = ExtResource("12_kbeao")
+metadata/_custom_type_script = "uid://7iyotmo3dndt"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent"]
+polygon = PackedVector2Array(-8, 3, -3, -4, -1, -7, 1, -7, 3, -4, 7, 1, 8, 3, 8, 4, 5, 4, 5, 7, 1, 7, 1, 6, -1, 6, -1, 7, -5, 7, -5, 4, -8, 4)
+
+[node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
+script = ExtResource("13_kbeao")
+stats_component = NodePath("../StatsComponent")
+hurtbox_component = NodePath("../HurtboxComponent")
+metadata/_custom_type_script = "uid://flfgnyocc7mx"
+
+[node name="ExplosionSpawnerComponent" type="Node2D" parent="."]
+script = ExtResource("7_6m5c2")
+scene = ExtResource("14_gglps")
+metadata/_custom_type_script = "uid://cpbm3in1nk6bt"
+
+[node name="DestroyedComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "destroy_effect_spawner_component")]
+script = ExtResource("15_h7cto")
+actor = NodePath("..")
+stats_component = NodePath("../StatsComponent")
+destroy_effect_spawner_component = NodePath("../ExplosionSpawnerComponent")
+metadata/_custom_type_script = "uid://1t2gplgsoh4i"
