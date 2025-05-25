@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cryblcu5mcsjr"]
+[gd_scene load_steps=29 format=3 uid="uid://cryblcu5mcsjr"]
 
 [ext_resource type="Script" uid="uid://ek70r5amogqf" path="res://player_ship/ship.gd" id="1_etvdo"]
 [ext_resource type="Texture2D" uid="uid://lhp5vfocblvi" path="res://assets/ship.png" id="1_lyjrp"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://flfgnyocc7mx" path="res://components/hurt_component.gd" id="13_kbeao"]
 [ext_resource type="PackedScene" uid="uid://cqbd5tbffwa1m" path="res://effects/explosion_effect.tscn" id="14_gglps"]
 [ext_resource type="Script" uid="uid://1t2gplgsoh4i" path="res://components/destroyed_component.gd" id="15_h7cto"]
+[ext_resource type="AudioStream" uid="uid://b8kifogmlf22a" path="res://sounds/laser_sound.wav" id="16_1soxd"]
+[ext_resource type="Script" uid="uid://d2dxhxb1lubt0" path="res://components/variable_pitch_audio_stream_player.gd" id="16_h7cto"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y3mk2"]
 atlas = ExtResource("1_lyjrp")
@@ -196,3 +198,9 @@ actor = NodePath("..")
 stats_component = NodePath("../StatsComponent")
 destroy_effect_spawner_component = NodePath("../ExplosionSpawnerComponent")
 metadata/_custom_type_script = "uid://1t2gplgsoh4i"
+
+[node name="VariablePitchAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_1soxd")
+bus = &"Sounds"
+script = ExtResource("16_h7cto")
+metadata/_custom_type_script = "uid://d2dxhxb1lubt0"
